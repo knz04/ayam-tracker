@@ -4,7 +4,7 @@ export default function AddAyam() {
   return (
     <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
-        <h3 className="font-bold text-lg">Track Your Ayam</h3>
+        <h3 className="font-bold text-lg">Add an ayam</h3>
         <form className="card-body">
           <div className="form-control">
             <label className="label">
@@ -20,11 +20,11 @@ export default function AddAyam() {
               <option>Walking Dead</option>
             </select>
           </div>
-          <div className="form-control">
+          {/* <div className="form-control">
             <label className="label">
               <span className="label-text">Date</span>
             </label>
-          </div>
+          </div> */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Rate the ayam</span>
@@ -57,6 +57,15 @@ export default function AddAyam() {
                 className="mask mask-star bg-primary"
               />
             </div>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Notes</span>
+            </label>
+            <textarea
+              className="textarea textarea-bordered"
+              placeholder="What's up with this ayam?"
+            ></textarea>
           </div>
         </form>
         <div className="modal-action">
