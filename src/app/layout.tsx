@@ -5,15 +5,15 @@ import "./globals.css";
 export const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { template: "%s | Ayam Tracker", default: "Ayam Tracker" },
+  title: "Ayam Tracker",
   description: "Ayam Tracker is a simple app to track your ayam consumption.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html data-theme="bumblebee" lang="en">
       <body className={`${inter.className} antialiased`}>{children}</body>
