@@ -5,8 +5,8 @@ import Recent from "@/components/recent";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div className="card bg-base-100 w-full md:w-1/2 shadow-xl">
+    <div className="flex flex-col items-center gap-8 ">
+      <div className="card bg-base-100 w-full md:w-1/2 shadow-xl ">
         <div className="card-body">
           <h2 className="card-title">Hi, User!</h2>
           <p>Would you like to track your ayam consumption?</p>
