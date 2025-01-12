@@ -6,7 +6,7 @@ export default function Home() {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Welcome to Ayam Tracker!</h1>
+            <h1 className="text-5xl font-bold">Welcome to Ayam Tracker! 🍗</h1>
             <p className="py-6">
               Login now to start tracking your ayam consumption.
             </p>
@@ -47,7 +47,7 @@ export default function Home() {
                 href="/register"
                 className="label-text-alt text-center link link-hover"
               >
-                Don't have an account? Register now!
+                Don&apos; t have an account? Register now!
               </Link>
             </form>
           </div>
