@@ -13,7 +13,12 @@ export default function Dashboard() {
           <div className="card-actions justify-end">
             <button
               className="btn btn-primary"
-              onClick={() => document.getElementById("my_modal_5")?.showModal()}
+              onClick={() => {
+                const modal = document.getElementById(
+                  "my_modal_5"
+                ) as HTMLDialogElement;
+                modal?.showModal();
+              }}
             >
               Add an ayam
             </button>
