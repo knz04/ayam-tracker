@@ -1,9 +1,11 @@
+import { signOut } from "@/auth";
+
 export default function Navbar() {
   return (
     <div>
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <a href="/dashboard" className="btn btn-ghost text-xl">
+          <a href="/" className="btn btn-ghost text-xl hover:animate-jump">
             Ayam Tracker
           </a>
         </div>
@@ -32,7 +34,15 @@ export default function Navbar() {
                 <a href="/settings">Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a
+                  href="#"
+                  onClick={async () => {
+                    "use server";
+                    await signOut();
+                  }}
+                >
+                  Logout
+                </a>
               </li>
             </ul>
           </div>

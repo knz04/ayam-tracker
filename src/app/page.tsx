@@ -1,6 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useActionState } from "react";
+import { authenticate } from "@/lib/actions";
 
 export default function Home() {
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
+
   return (
     <div>
       <div className="hero bg-base-200 min-h-screen">
@@ -12,7 +21,7 @@ export default function Home() {
             </p>
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <form className="card-body">
+            <form action={formAction} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Username</span>
@@ -20,6 +29,7 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="username"
+                  name="username"
                   className="input input-bordered"
                   required
                 />
@@ -31,6 +41,7 @@ export default function Home() {
                 <input
                   type="password"
                   placeholder="password"
+                  name="password"
                   className="input input-bordered"
                   required
                 />
@@ -41,7 +52,12 @@ export default function Home() {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+                <button className="btn btn-primary" aria-disabled={isPending}>
+                  Login
+                </button>
+                {errorMessage && (
+                  <p className="text-error text-sm mt-2">{errorMessage}</p>
+                )}
               </div>
               <Link
                 href="/register"
