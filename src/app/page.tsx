@@ -63,7 +63,7 @@ export default function Home() {
                 href="/register"
                 className="label-text-alt text-center link link-hover"
               >
-                Don&apos; t have an account? Register now!
+                Don&apos;t have an account? Register now!
               </Link>
             </form>
           </div>

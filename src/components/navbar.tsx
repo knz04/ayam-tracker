@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signOut } from "@/auth";
 
 export default function Navbar() {
@@ -28,13 +29,13 @@ export default function Navbar() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a href="/profile">Profile</a>
+                <Link href="/profile">Profile</Link>
               </li>
               <li>
-                <a href="/settings">Settings</a>
+                <Link href="/settings">Settings</Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#"
                   onClick={async () => {
                     "use server";
@@ -42,7 +43,7 @@ export default function Navbar() {
                   }}
                 >
                   Logout
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
