@@ -2,6 +2,7 @@
 
 import AddAyam from "./addayam";
 
+
 export default function Welcome() {
   return (
     <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">

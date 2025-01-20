@@ -46,7 +46,10 @@ export default function Home() {
                   required
                 />
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
+                  <a
+                    href="#"
+                    className="label-text-alt link link-hover md:no-underline underline"
+                  >
                     Forgot password?
                   </a>
                 </label>
@@ -61,7 +64,7 @@ export default function Home() {
               </div>
               <Link
                 href="/register"
-                className="label-text-alt text-center link link-hover"
+                className="label-text-alt text-center link link-hover md:no-underline underline"
               >
                 Don&apos;t have an account? Register now!
               </Link>
