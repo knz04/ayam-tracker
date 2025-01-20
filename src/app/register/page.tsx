@@ -41,14 +41,16 @@ export default function Register() {
               className="input input-bordered"
               required
             />
+            <label className="label">
+              <a href="#" className="label-text-alt link link-hover">
+                Forgot password?
+              </a>
+            </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary ">Register</button>
+            <button className="btn btn-primary">Register</button>
           </div>
-          <Link
-            href="/"
-            className="label-text-alt text-center link link-hover md:no-underline underline"
-          >
+          <Link href="/" className="label-text-alt text-center link link-hover">
             Already have an account? Login now!
           </Link>
         </form>

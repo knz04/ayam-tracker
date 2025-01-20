@@ -5,7 +5,6 @@ import { sql } from "@vercel/postgres";
 import bcrypt from "bcrypt";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 
 const FormSchema = z.object({
   id: z.number(),
@@ -26,8 +25,6 @@ export async function registerUser(formData: FormData) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
-
-  redirect("/");
 }
 
 export async function authenticate(
