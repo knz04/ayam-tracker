@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { signOut } from "@/auth";
 
 export default function Navbar() {
   return (
@@ -35,15 +34,7 @@ export default function Navbar() {
                 <Link href="/settings">Settings</Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  onClick={async () => {
-                    "use server";
-                    await signOut();
-                  }}
-                >
-                  Logout
-                </Link>
+                <Link href="#">Logout</Link>
               </li>
             </ul>
           </div>
