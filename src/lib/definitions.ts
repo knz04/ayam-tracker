@@ -5,3 +5,8 @@ export type Users = {
   password: string;
   created_at: Date;
 };
+
+export type SessionPayload = {
+  userId: string;
+  expiresAt: Date;
+};

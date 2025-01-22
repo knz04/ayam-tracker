@@ -17,3 +17,14 @@ export const signInSchema = z.object({
   username: z.string({ required_error: "Username is required" }),
   password: z.string({ required_error: "Password is required" }),
 });
+
+export type FormState =
+  | {
+      errors?: {
+        name?: string[];
+        email?: string[];
+        password?: string[];
+      };
+      message?: string;
+    }
+  | undefined;

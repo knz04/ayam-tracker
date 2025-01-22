@@ -1,4 +1,5 @@
 "use client";
+
 import AddAyam from "@/components/addayam";
 import Stats from "@/components/stats";
 import Recent from "@/components/recent";
