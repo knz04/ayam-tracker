@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 import { signUpSchema, signInSchema } from "./zod";
-import { createSession, deleteSession } from "./sessions";
+import { createSession, deleteSession, decrypt } from "./sessions";
+import { cookies } from "next/headers";
 
 export async function register(formData: FormData) {
   const { username, email, password } = signUpSchema.parse({
@@ -20,7 +21,7 @@ export async function register(formData: FormData) {
   redirect("/");
 }
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(formData: FormData) {
   const result = signInSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
@@ -59,7 +60,25 @@ export async function logout() {
   redirect("/");
 }
 
-export async function getUsername(userId: string) {
+export async function getUsername() {
+  // Get the session cookie
+  const session = (await cookies()).get("session")?.value;
+
+  // Decrypt the session to get the payload (which contains userId)
+  const payload = await decrypt(session);
+
+  if (!payload || typeof payload.userId !== "number") {
+    throw new Error("Session is not valid or userId is not a string");
+  }
+
+  const userId = payload.userId; // Now we are sure userId is a string
+
+  // Fetch the username using the userId
   const result = await sql`SELECT username FROM "Users" WHERE id = ${userId}`;
-  return result.rows[0].username;
+
+  if (result.rows.length === 0) {
+    throw new Error("User not found");
+  }
+
+  return result.rows[0].username; // Return the username
 }
