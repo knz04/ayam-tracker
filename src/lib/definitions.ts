@@ -10,3 +10,8 @@ export type SessionPayload = {
   userId: string;
   expiresAt: Date;
 };
+
+export type Ayam = {
+  id: number;
+  part: string;
+};

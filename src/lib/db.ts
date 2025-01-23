@@ -63,3 +63,8 @@ export async function getUsername(userId: string) {
   const result = await sql`SELECT username FROM "Users" WHERE id = ${userId}`;
   return result.rows[0].username;
 }
+
+export async function getAyamPart() {
+  const result = await sql`SELECT part FROM "Ayam"`;
+  return result.rows;
+}
