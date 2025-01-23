@@ -31,8 +31,9 @@ export default function AyamPart() {
         className="select select-primary w-full max-w-xs"
         value={selectedPart} // Controlled value for the select
         onChange={(e) => {
-          setSelectedPart(e.target.value), console.log(selectedPart);
-        }} // Update state when selection changes
+          setSelectedPart(e.target.value); // Update state when selection changes
+          console.log(e.target.value); // Log the selected part
+        }}
       >
         <option value="" disabled>
           Pick an ayam part
