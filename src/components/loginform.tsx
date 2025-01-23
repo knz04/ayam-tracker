@@ -1,14 +1,16 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-
-// Assuming the `login` function is imported from another file
 import { login } from "@/lib/db"; // Adjust the import path
+
+type ErrorsType = {
+  [key: string]: string | string[];
+};
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<ErrorsType>({});
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -17,14 +19,15 @@ export default function LoginForm() {
     formData.append("username", username);
     formData.append("password", password);
 
-    const result = await login({}, formData); // Call the login function
+    // Call the login function and handle the result
+    const result = await login(formData);
 
+    // If there are errors, set the errors state
     if (result.errors) {
-      setErrors(result.errors);
-    } else {
-      // Navigate to dashboard or another page after successful login
-      // You can use the Next.js router for this
-      window.location.href = "/dashboard";
+      setErrors({
+        username: result.errors.username || "",
+        password: result.errors.password || "",
+      });
     }
   };
 
