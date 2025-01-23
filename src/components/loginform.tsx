@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-
 import { login } from "@/lib/db"; // Adjust the import path
 
 type ErrorsType = {
@@ -20,7 +19,16 @@ export default function LoginForm() {
     formData.append("username", username);
     formData.append("password", password);
 
+    // Call the login function and handle the result
     const result = await login(formData);
+
+    // If there are errors, set the errors state
+    if (result.errors) {
+      setErrors({
+        username: result.errors.username || "",
+        password: result.errors.password || "",
+      });
+    }
   };
 
   return (

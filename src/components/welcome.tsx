@@ -16,7 +16,7 @@ export default function Welcome() {
         const fetchedUsername = await getUsername(); // No need to pass userId, it's fetched from session
         setUsername(fetchedUsername); // Set the fetched username
         setIsLoading(false); // Set loading to false after fetch
-      } catch (error) {
+      } catch {
         setIsError(true); // Set error state if there's an issue
         setIsLoading(false);
       }
@@ -24,6 +24,7 @@ export default function Welcome() {
 
     fetchUsername();
   }, []); // Empty dependency array ensures it runs once on mount
+  // Empty dependency array ensures it runs once on mount
 
   return (
     <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">

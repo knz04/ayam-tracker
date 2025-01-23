@@ -2,7 +2,6 @@
 
 import Stats from "@/components/stats";
 import Recent from "@/components/recent";
-import { getUsername } from "@/lib/db";
 import Welcome from "@/components/welcome";
 
 export default function Dashboard() {
