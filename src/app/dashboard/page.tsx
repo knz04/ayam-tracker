@@ -3,6 +3,7 @@
 import Stats from "@/components/stats";
 import Recent from "@/components/recent";
 import Welcome from "@/components/welcome";
+import Link from "next/link";
 
 export default function Dashboard() {
   return (
@@ -24,9 +25,12 @@ export default function Dashboard() {
           <h2 className="card-title">Your Recent Ayams</h2>
           <Recent />
           <div className="card-actions justify-end">
-            <button className="btn btn-primary hover:animate-jump">
+            <Link
+              href="/dashboard/history"
+              className="btn btn-primary hover:animate-jump"
+            >
               View your ayam history
-            </button>
+            </Link>
           </div>
         </div>
       </div>
