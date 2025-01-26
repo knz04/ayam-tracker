@@ -36,3 +36,37 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const session = (await cookies()).get("session")?.value;
+    const payload = await decrypt(session);
+    if (!payload || typeof payload.userId !== "number") {
+      throw new Error("Session is not valid or userId is not a string");
+    }
+    const userId = payload.userId;
+
+    const result = await sql`
+    SELECT 
+      l.rating, 
+      l.created_at, 
+      l.notes,
+      a.part AS part_name 
+    FROM 
+      "Logs" l
+    JOIN 
+      "Ayam" a ON l.part_id = a.id
+    WHERE 
+      l.user_id = ${userId}
+    ORDER BY 
+      l.created_at DESC 
+  `;
+
+    return NextResponse.json(result.rows);
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to fetch ayam logs" },
+      { status: 500 }
+    );
+  }
+}

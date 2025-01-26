@@ -16,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="bumblebee" lang="en">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased bg-base-200`}>
+        {children}
+      </body>
     </html>
   );
 }
