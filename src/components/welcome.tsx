@@ -24,28 +24,34 @@ export default function Welcome() {
 
     fetchUsername();
   }, []); // Empty dependency array ensures it runs once on mount
-  // Empty dependency array ensures it runs once on mount
 
   return (
     <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">
       <div className="card-body">
-        <h2 className="card-title">
-          Hi, {isLoading ? "Loading..." : isError ? "User" : username}!
-        </h2>
-        <p>Would you like to track your ayam consumption?</p>
-        <div className="card-actions justify-end">
-          <button
-            className="btn btn-primary hover:animate-jump"
-            onClick={() => {
-              const modal = document.getElementById(
-                "my_modal_5"
-              ) as HTMLDialogElement;
-              modal?.showModal();
-            }}
-          >
-            Add an ayam
-          </button>
-        </div>
+        {/* Conditionally render spinner or content based on isLoading */}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : (
+          <>
+            <h2 className="card-title">Hi, {isError ? "User" : username}!</h2>
+            <p>Would you like to track your ayam consumption?</p>
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-primary hover:animate-jump"
+                onClick={() => {
+                  const modal = document.getElementById(
+                    "my_modal_5"
+                  ) as HTMLDialogElement;
+                  modal?.showModal();
+                }}
+              >
+                Add an ayam
+              </button>
+            </div>
+          </>
+        )}
       </div>
       <AddAyam />
     </div>
