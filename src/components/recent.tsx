@@ -1,4 +1,40 @@
+import { useState, useEffect } from "react";
+import { getRecentAyam } from "@/lib/db";
+
 export default function Recent() {
+  const [recentAyam, setRecentAyam] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchRecentAyam = async () => {
+      try {
+        const data = await getRecentAyam();
+        setRecentAyam(data);
+      } catch (error) {
+        console.error("Error fetching recent ayam:", error);
+      }
+    };
+
+    fetchRecentAyam();
+  }, []);
+
+  // Function to display stars based on rating
+  const renderStars = (rating: number) => {
+    return (
+      <div className="rating">
+        {[...Array(5)].map((_, index) => (
+          <input
+            key={index}
+            type="radio"
+            className="mask mask-star bg-primary"
+            value={index + 1}
+            checked={rating === index + 1}
+            readOnly
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -6,33 +42,21 @@ export default function Recent() {
         <thead>
           <tr>
             <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>Ayam Part</th>
+            <th>Rating</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
+          {/* Map over the recentAyam data and create rows dynamically */}
+          {recentAyam.map((log, index) => (
+            <tr key={log.part_id}>
+              <th>{index + 1}</th>
+              <td>{log.part_name}</td>
+              <td>{renderStars(log.rating)}</td>
+              <td>{new Date(log.created_at).toLocaleDateString()}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

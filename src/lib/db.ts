@@ -87,3 +87,35 @@ export async function getAyamPart() {
   const result = await sql`SELECT * FROM "Ayam"`;
   return result.rows;
 }
+
+export async function getRecentAyam() {
+  const session = (await cookies()).get("session")?.value;
+
+  // Decrypt the session to get the payload (which contains userId)
+  const payload = await decrypt(session);
+
+  if (!payload || typeof payload.userId !== "number") {
+    throw new Error("Session is not valid or userId is not a string");
+  }
+
+  const userId = payload.userId;
+
+  // Query the Logs table and join with the Ayam table
+  const result = await sql`
+    SELECT 
+      l.rating, 
+      l.created_at, 
+      a.part AS part_name 
+    FROM 
+      "Logs" l
+    JOIN 
+      "Ayam" a ON l.part_id = a.id
+    WHERE 
+      l.user_id = ${userId}
+    ORDER BY 
+      l.created_at DESC 
+    LIMIT 3
+  `;
+
+  return result.rows;
+}
