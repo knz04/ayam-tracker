@@ -3,7 +3,6 @@ import { getRecentAyam } from "@/lib/db";
 
 // Define a type for the log data
 interface AyamLog {
-  part_id: number;
   part_name: string;
   rating: number;
   created_at: string; // or Date if it's a Date object
@@ -20,7 +19,6 @@ export default function Recent() {
 
         // Map the result to match AyamLog structure
         const mappedData: AyamLog[] = data.map((log: any) => ({
-          part_id: log.part_id,
           part_name: log.part_name,
           rating: log.rating,
           created_at: log.created_at,
@@ -69,7 +67,7 @@ export default function Recent() {
         <tbody>
           {/* Map over the recentAyam data and create rows dynamically */}
           {recentAyam.map((log, index) => (
-            <tr key={log.part_id}>
+            <tr key={index}>
               <th>{index + 1}</th>
               <td>{log.part_name}</td>
               <td>{renderStars(log.rating)}</td>
