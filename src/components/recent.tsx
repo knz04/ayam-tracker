@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { getRecentAyam } from "@/lib/db";
 
@@ -57,12 +58,16 @@ export default function Recent() {
         <div className="flex justify-center items-center py-5">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
+      ) : recentAyam.length === 0 ? (
+        <div className="flex justify-center items-center py-16">
+          <span>No recent ayam logs found. Please add a new entry!</span>
+        </div>
       ) : (
         <table className="table">
-          {/* head */}
+          {/* Table Head */}
           <thead>
             <tr>
-              <th></th>
+              <th>No.</th>
               <th>Ayam Part</th>
               <th>Rating</th>
               <th>Date</th>
