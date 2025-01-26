@@ -84,6 +84,6 @@ export async function getUsername() {
 }
 
 export async function getAyamPart() {
-  const result = await sql`SELECT part FROM "Ayam"`;
+  const result = await sql`SELECT * FROM "Ayam"`;
   return result.rows;
 }
