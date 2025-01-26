@@ -1,14 +1,33 @@
 import { useState, useEffect } from "react";
 import { getRecentAyam } from "@/lib/db";
 
+// Define a type for the log data
+interface AyamLog {
+  part_id: number;
+  part_name: string;
+  rating: number;
+  created_at: string; // or Date if it's a Date object
+}
+
 export default function Recent() {
-  const [recentAyam, setRecentAyam] = useState<any[]>([]);
+  const [recentAyam, setRecentAyam] = useState<AyamLog[]>([]);
 
   useEffect(() => {
     const fetchRecentAyam = async () => {
       try {
+        // Fetch data from the database
         const data = await getRecentAyam();
-        setRecentAyam(data);
+
+        // Map the result to match AyamLog structure
+        const mappedData: AyamLog[] = data.map((log: any) => ({
+          part_id: log.part_id,
+          part_name: log.part_name,
+          rating: log.rating,
+          created_at: log.created_at,
+        }));
+
+        // Set the state with the mapped data
+        setRecentAyam(mappedData);
       } catch (error) {
         console.error("Error fetching recent ayam:", error);
       }
