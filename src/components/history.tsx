@@ -17,7 +17,6 @@ export default function History() {
     const fetchHistory = async () => {
       try {
         const response = await fetch("/api/ayam", {
-          // Ensure correct URL is used
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -28,13 +27,16 @@ export default function History() {
           throw new Error("Failed to fetch ayam history");
         }
 
-        const data = await response.json();
+        // Explicitly typing the data response
+        const data: AyamLog[] = await response.json();
+
         const transformedData: AyamLog[] = data.map((item) => ({
           part_name: item.part_name,
           rating: item.rating,
           created_at: item.created_at,
           notes: item.notes,
         }));
+
         setHistory(transformedData);
         setIsLoading(false); // Set loading to false after fetch
       } catch (error) {
