@@ -14,18 +14,13 @@ export default function Recent() {
   useEffect(() => {
     const fetchRecentAyam = async () => {
       try {
-        // Fetch data from the database
         const data = await getRecentAyam();
-
-        // Map the result to match AyamLog structure
-        const mappedData: AyamLog[] = data.map((log: any) => ({
-          part_name: log.part_name,
-          rating: log.rating,
-          created_at: log.created_at,
+        const transformedData: AyamLog[] = data.map((item) => ({
+          part_name: item.part_name,
+          rating: item.rating,
+          created_at: item.created_at,
         }));
-
-        // Set the state with the mapped data
-        setRecentAyam(mappedData);
+        setRecentAyam(transformedData);
       } catch (error) {
         console.error("Error fetching recent ayam:", error);
       }
