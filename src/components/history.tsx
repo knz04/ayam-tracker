@@ -73,6 +73,10 @@ export default function History() {
         <div className="flex justify-center items-center py-5">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
+      ) : history.length === 0 ? (
+        <div className="flex justify-center items-center py-5">
+          <span>No history logs found. Please add a new entry!</span>
+        </div>
       ) : (
         <table className="table">
           {/* Table Head */}
