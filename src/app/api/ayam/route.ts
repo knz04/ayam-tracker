@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = (await cookies()).get("session")?.value;
     const payload = await decrypt(session);
