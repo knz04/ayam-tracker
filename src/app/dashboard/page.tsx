@@ -9,7 +9,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center gap-8 h-screen">
       <Welcome />
-      <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">
+      <div className="card bg-base-100 w-full lg:w-1/2 shadow-xl animate-fade-up">
         <div className="card-body">
           <h2 className="card-title">Stats</h2>
           <Stats />
@@ -20,7 +20,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">
+      <div className="card bg-base-100 w-full lg:w-1/2 shadow-xl animate-fade-up">
         <div className="card-body">
           <h2 className="card-title">Your Recent Ayams</h2>
           <Recent />
