@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Pagination from "./pagination";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 // Define a type for the log data
 interface AyamLog {
