@@ -9,7 +9,7 @@ export default function Edit({
   created_at, // or Date if it's a Date object
   notes,
 }: AyamLog) {
-  const data = { id, part_name, rating, created_at, notes };
+  // const data = { id, part_name, rating, created_at, notes };
 
   const openModal = () => {
     const modal = document.getElementById("my_modal_5") as HTMLDialogElement;
