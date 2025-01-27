@@ -38,7 +38,7 @@ export default function Edit({
         </svg>
       </button>
 
-      <Dialog id={data.id} />
+      <Dialog />
     </div>
   );
 }
@@ -64,7 +64,7 @@ export default function Edit({
 //   }
 // }
 
-function Dialog({ id }: { id: number }) {
+function Dialog() {
   return (
     <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
