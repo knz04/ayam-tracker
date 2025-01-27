@@ -105,13 +105,7 @@ export default function History() {
                 <td>{renderStars(log.rating)}</td>
                 <td>{new Date(log.created_at).toLocaleDateString()}</td>
                 <td>{log.notes}</td>
-                <Edit
-                  id={log.id}
-                  part_name={log.part_name}
-                  rating={log.rating}
-                  created_at={log.created_at}
-                  notes={log.notes}
-                />
+                <Edit />
               </tr>
             ))}
           </tbody>
