@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = (await cookies()).get("session")?.value;
     const payload = await decrypt(session);
@@ -45,6 +45,11 @@ export async function GET() {
       throw new Error("Session is not valid or userId is not a string");
     }
     const userId = payload.userId;
+
+    const searchParams = request.nextUrl.searchParams;
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = 12;
+    const offset = (Number(page) - 1) * limit;
 
     const result = await sql`
     SELECT 
@@ -60,9 +65,24 @@ export async function GET() {
       l.user_id = ${userId}
     ORDER BY 
       l.created_at DESC 
+    LIMIT ${limit} OFFSET ${offset}
   `;
 
-    return NextResponse.json(result.rows);
+    const totalItemsResult =
+      await sql`SELECT COUNT(*) FROM "Logs" WHERE user_id = ${userId}`;
+    const totalItems = totalItemsResult.rows[0].count;
+
+    const totalPages = Math.ceil(Number(totalItems) / limit);
+
+    return NextResponse.json(
+      {
+        logs: result.rows,
+        totalItems: totalItems,
+        totalPages: totalPages,
+        currentPage: page,
+      },
+      { status: 200 }
+    );
   } catch {
     return NextResponse.json(
       { error: "Failed to fetch ayam logs" },
