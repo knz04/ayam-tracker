@@ -2,13 +2,14 @@
 
 import { AyamLog } from "@/lib/definitions";
 
-export default function Edit({
-  id,
-  part_name,
-  rating,
-  created_at, // or Date if it's a Date object
-  notes,
-}: AyamLog) {
+export default function Edit() {
+//   {
+//   id,
+//   part_name,
+//   rating,
+//   created_at, // or Date if it's a Date object
+//   notes,
+// }: AyamLog
   // const data = { id, part_name, rating, created_at, notes };
 
   const openModal = () => {
