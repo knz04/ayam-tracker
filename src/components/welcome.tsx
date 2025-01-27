@@ -26,7 +26,7 @@ export default function Welcome() {
   }, []); // Empty dependency array ensures it runs once on mount
 
   return (
-    <div className="card bg-base-100 w-full md:w-1/2 shadow-xl animate-fade-up">
+    <div className="card bg-base-100 w-full lg:w-1/2 shadow-xl animate-fade-up">
       <div className="card-body">
         {/* Conditionally render spinner or content based on isLoading */}
         {isLoading ? (

@@ -1,5 +1,8 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import Pagination from "./pagination";
+import { useSearchParams, useRouter } from "next/navigation";
 
 // Define a type for the log data
 interface AyamLog {
@@ -9,14 +12,31 @@ interface AyamLog {
   notes: string;
 }
 
+interface Pagination {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+}
+
 export default function History() {
   const [history, setHistory] = useState<AyamLog[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [pagination, setPagination] = useState<Pagination>({
+    totalItems: 0,
+    totalPages: 1,
+    currentPage: 1,
+  });
+
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") || "1";
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch("/api/ayam", {
+        const url = new URL("/api/ayam", window.location.origin);
+        url.searchParams.append("page", page);
+
+        const response = await fetch(url.toString(), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -28,16 +48,15 @@ export default function History() {
         }
 
         // Explicitly typing the data response
-        const data: AyamLog[] = await response.json();
+        const data = await response.json();
+        const { logs, totalItems, totalPages, currentPage } = data;
 
-        const transformedData: AyamLog[] = data.map((item) => ({
-          part_name: item.part_name,
-          rating: item.rating,
-          created_at: item.created_at,
-          notes: item.notes,
-        }));
-
-        setHistory(transformedData);
+        setHistory(logs);
+        setPagination({
+          totalItems,
+          totalPages,
+          currentPage,
+        });
         setIsLoading(false); // Set loading to false after fetch
       } catch (error) {
         console.error("Error fetching ayam history:", error);
@@ -46,7 +65,7 @@ export default function History() {
     };
 
     fetchHistory();
-  }, []);
+  }, [page]); // Add `page` as a dependency to re-fetch on page change
 
   // Function to display stars based on rating
   const renderStars = (rating: number) => {
@@ -103,6 +122,12 @@ export default function History() {
           </tbody>
         </table>
       )}
+      <div className="flex justify-center">
+        <Pagination
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+        />
+      </div>
     </div>
   );
 }
