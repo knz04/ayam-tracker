@@ -1,13 +1,9 @@
 "use client";
 
+import { PaginationProps } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-}
-
-export default function Pagination({
+export default function PaginationControl({
   currentPage,
   totalPages,
 }: PaginationProps) {

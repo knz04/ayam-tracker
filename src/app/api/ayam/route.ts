@@ -53,6 +53,7 @@ export async function GET(request: NextRequest) {
 
     const result = await sql`
     SELECT 
+      l.id,
       l.rating, 
       l.created_at, 
       l.notes,
@@ -86,6 +87,34 @@ export async function GET(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { error: "Failed to fetch ayam logs" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = (await cookies()).get("session")?.value;
+    const payload = await decrypt(session);
+    if (!payload || typeof payload.userId !== "number") {
+      throw new Error("Session is not valid or userId is not a string");
+    }
+    const userId = payload.userId;
+
+    const { id } = await request.json();
+
+    if (typeof id !== "number") {
+      return NextResponse.json(
+        { error: "Invalid input data" },
+        { status: 400 }
+      );
+    }
+
+    await sql`DELETE FROM "Logs" WHERE id = ${id} AND user_id = ${userId}`;
+    return NextResponse.json("Succesfully deleted ayam log.", { status: 200 });
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to delete ayam log" },
       { status: 500 }
     );
   }

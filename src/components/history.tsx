@@ -1,22 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Pagination from "./pagination";
+import PaginationControl from "./pagination";
 import { useSearchParams } from "next/navigation";
-
-// Define a type for the log data
-interface AyamLog {
-  part_name: string;
-  rating: number;
-  created_at: string; // or Date if it's a Date object
-  notes: string;
-}
-
-interface Pagination {
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-}
+import Edit from "./edit";
+import { AyamLog, Pagination } from "@/lib/definitions";
 
 export default function History() {
   const [history, setHistory] = useState<AyamLog[]>([]);
@@ -117,13 +105,20 @@ export default function History() {
                 <td>{renderStars(log.rating)}</td>
                 <td>{new Date(log.created_at).toLocaleDateString()}</td>
                 <td>{log.notes}</td>
+                <Edit
+                  id={log.id}
+                  part_name={log.part_name}
+                  rating={log.rating}
+                  created_at={log.created_at}
+                  notes={log.notes}
+                />
               </tr>
             ))}
           </tbody>
         </table>
       )}
       <div className="flex justify-center">
-        <Pagination
+        <PaginationControl
           currentPage={pagination.currentPage}
           totalPages={pagination.totalPages}
         />

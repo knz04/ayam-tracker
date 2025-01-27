@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col items-center gap-8 h-screen">
+    <div className="flex flex-col items-center gap-8 flex-grow">
       <Welcome />
       <div className="card bg-base-100 w-full lg:w-1/2 shadow-xl animate-fade-up">
         <div className="card-body">
