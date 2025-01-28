@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function Stats() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [thisWeek, setThisWeek] = useState<number>(0);
   const [thisMonth, setThisMonth] = useState<number>(0);
   const [thisYear, setThisYear] = useState<number>(0);
@@ -47,41 +49,56 @@ export default function Stats() {
         setMonthUp(data.monthUp);
         setYearUp(data.yearUp);
 
-        setMonthPercent(Math.round((compareMonth / thisMonth) * 100));
-        setYearPercent(Math.round((compareYear / thisYear) * 100));
+        // Avoid dividing by zero
+        if (thisMonth > 0) {
+          setMonthPercent(Math.round((compareMonth / thisMonth) * 100));
+        }
+
+        if (thisYear > 0) {
+          setYearPercent(Math.round((compareYear / thisYear) * 100));
+        }
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchStats();
-  }, [today, lastWeek]); // Removed thisWeek from dependencies
+  }, [thisMonth, thisYear]); // Removed today, lastWeek from dependencies
 
   return (
-    <div className="stats stats-vertical lg:stats-horizontal shadow">
-      <div className="stat">
-        <div className="stat-title">This week&apos;s ayam</div>
-        <div className="stat-value">{thisWeek}</div>
-        <div className="stat-desc">
-          {lastWeekDateStr} - {todayDate}
+    <div>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <Image src="/loading.gif" alt="Loading..." width={50} height={50} />
         </div>
-      </div>
+      ) : (
+        <div className="stats stats-vertical lg:stats-horizontal shadow">
+          <div className="stat">
+            <div className="stat-title">This week&apos;s ayam</div>
+            <div className="stat-value">{thisWeek}</div>
+            <div className="stat-desc">
+              {lastWeekDateStr} - {todayDate}
+            </div>
+          </div>
 
-      <div className="stat">
-        <div className="stat-title">This month&apos;s ayam</div>
-        <div className="stat-value">{thisMonth}</div>
-        <div className="stat-desc">
-          {monthUp ? "↗︎" : "↘︎"} {compareMonth} ({monthPercent}%)
-        </div>
-      </div>
+          <div className="stat">
+            <div className="stat-title">This month&apos;s ayam</div>
+            <div className="stat-value">{thisMonth}</div>
+            <div className="stat-desc">
+              {monthUp ? "↗︎" : "↘︎"} {compareMonth} ({monthPercent}%)
+            </div>
+          </div>
 
-      <div className="stat">
-        <div className="stat-title">This year&apos;s ayam</div>
-        <div className="stat-value">{thisYear}</div>
-        <div className="stat-desc">
-          {yearUp ? "↗︎" : "↘︎"} {compareYear} ({yearPercent}%)
+          <div className="stat">
+            <div className="stat-title">This year&apos;s ayam</div>
+            <div className="stat-value">{thisYear}</div>
+            <div className="stat-desc">
+              {yearUp ? "↗︎" : "↘︎"} {compareYear} ({yearPercent}%)
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
