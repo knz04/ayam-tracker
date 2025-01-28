@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import AddAyam from "./addayam";
 import { getUsername } from "@/lib/db";
+import Image from "next/image";
 
 export default function Welcome() {
   const [username, setUsername] = useState<string | null>(null);
@@ -31,7 +32,7 @@ export default function Welcome() {
         {/* Conditionally render spinner or content based on isLoading */}
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
-            <span className="loading loading-spinner loading-lg"></span>
+            <Image src="/loading.gif" alt="Loading..." width={50} height={50} />
           </div>
         ) : (
           <>

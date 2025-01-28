@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getRecentAyam } from "@/lib/db";
+import Image from "next/image";
 
 // Define a type for the log data
 interface AyamLog {
@@ -56,7 +57,7 @@ export default function Recent() {
       {/* Show spinner while loading */}
       {isLoading ? (
         <div className="flex justify-center items-center py-5">
-          <span className="loading loading-spinner loading-lg"></span>
+          <Image src="/loading.gif" alt="Loading..." width={50} height={50} />
         </div>
       ) : recentAyam.length === 0 ? (
         <div className="flex justify-center items-center py-16">
