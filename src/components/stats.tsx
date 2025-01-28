@@ -67,7 +67,7 @@ export default function Stats() {
   }, [thisMonth, thisYear]); // Removed today, lastWeek from dependencies
 
   return (
-    <div>
+    <div className="flex flex-col w-full h-full">
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
           <Image src="/loading.gif" alt="Loading..." width={50} height={50} />
