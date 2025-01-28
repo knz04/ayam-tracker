@@ -7,7 +7,9 @@ import { signUpSchema, signInSchema } from "./zod";
 import { createSession, deleteSession, decrypt } from "./sessions";
 import { cookies } from "next/headers";
 
-export async function register(prevState: any, formData: FormData) {
+type FormState = Record<string, string | number | boolean>;
+
+export async function register(prevState: FormState, formData: FormData) {
   const result = signUpSchema.safeParse({
     username: formData.get("username"),
     email: formData.get("email"),
@@ -26,9 +28,14 @@ export async function register(prevState: any, formData: FormData) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
-  } catch (error) {
+  } catch (error: unknown) {
+    // Specify the type of error
+    if (error instanceof Error) {
+      return {
+        message: `Database error: ${error.message}`,
+      };
+    }
     return {
-      errors: {},
       message: "Database error: Failed to create user.",
     };
   }
@@ -36,7 +43,7 @@ export async function register(prevState: any, formData: FormData) {
   redirect("/");
 }
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(prevState: FormState, formData: FormData) {
   const result = signInSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
@@ -44,7 +51,6 @@ export async function login(prevState: any, formData: FormData) {
 
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
       message: "Validation failed",
     };
   }
@@ -70,7 +76,13 @@ export async function login(prevState: any, formData: FormData) {
     }
 
     await createSession(user.id);
-  } catch (error) {
+  } catch (error: unknown) {
+    // Specify the type of error
+    if (error instanceof Error) {
+      return {
+        message: `Database error: ${error.message}`,
+      };
+    }
     return {
       message: "Database error: Failed to login.",
     };
