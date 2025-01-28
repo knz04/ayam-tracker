@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/sessions";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = (await cookies()).get("session")?.value;
     const payload = await decrypt(session);

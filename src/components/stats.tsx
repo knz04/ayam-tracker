@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { set } from "zod";
 
 export default function Stats() {
   const [thisWeek, setThisWeek] = useState<number>(0);
