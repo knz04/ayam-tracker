@@ -1,5 +1,5 @@
 "use client";
 
 export default function Profile() {
-  return <div></div>;
+  return <div>belom jadi</div>;
 }

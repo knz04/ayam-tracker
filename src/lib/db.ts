@@ -7,50 +7,75 @@ import { signUpSchema, signInSchema } from "./zod";
 import { createSession, deleteSession, decrypt } from "./sessions";
 import { cookies } from "next/headers";
 
-export async function register(formData: FormData) {
-  const { username, email, password } = signUpSchema.parse({
+export async function register(prevState: any, formData: FormData) {
+  const result = signUpSchema.safeParse({
     username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
   });
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: "Validation failed",
+    };
+  }
 
-  await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
+  const { username, email, password } = result.data;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
+  } catch (error) {
+    return {
+      errors: {},
+      message: "Database error: Failed to create user.",
+    };
+  }
 
   redirect("/");
 }
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const result = signInSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
   });
 
   if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors };
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: "Validation failed",
+    };
   }
 
   const { username, password } = result.data;
 
-  const resultFromDb =
-    await sql`SELECT * FROM "Users" WHERE username = ${username}`;
-  const user = resultFromDb.rows[0];
+  try {
+    const resultFromDb =
+      await sql`SELECT * FROM "Users" WHERE username = ${username}`;
+    const user = resultFromDb.rows[0];
 
-  if (!user) {
+    if (!user) {
+      return {
+        message: "Invalid username or password",
+      };
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return {
+        message: "Invalid username or password",
+      };
+    }
+
+    await createSession(user.id);
+  } catch (error) {
     return {
-      errors: { username: "User not found" },
+      errors: {},
+      message: "Database error: Failed to login.",
     };
   }
-
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) {
-    return {
-      errors: { password: "Invalid email or password" },
-    };
-  }
-
-  await createSession(user.id);
 
   redirect("/dashboard");
 }
