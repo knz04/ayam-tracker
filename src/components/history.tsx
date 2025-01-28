@@ -5,6 +5,7 @@ import PaginationControl from "./pagination";
 import { useSearchParams } from "next/navigation";
 import Edit from "./edit";
 import { AyamLog, Pagination } from "@/lib/definitions";
+import Image from "next/image";
 
 export default function History() {
   const [history, setHistory] = useState<AyamLog[]>([]);
@@ -78,7 +79,7 @@ export default function History() {
       {/* Show spinner while loading */}
       {isLoading ? (
         <div className="flex justify-center items-center py-5">
-          <span className="loading loading-spinner loading-lg"></span>
+          <Image src="/loading.gif" alt="Loading..." width={50} height={50} />
         </div>
       ) : history.length === 0 ? (
         <div className="flex justify-center items-center py-5">
@@ -97,10 +98,10 @@ export default function History() {
             </tr>
           </thead>
           <tbody>
-            {/* Map over the history data and create rows dynamically */}
             {history.map((log, index) => (
               <tr key={index}>
-                <th>{index + 1}</th>
+                {/* Corrected row number logic */}
+                <th>{(pagination.currentPage - 1) * 12 + index + 1}</th>
                 <td>{log.part_name}</td>
                 <td>{renderStars(log.rating)}</td>
                 <td>{new Date(log.created_at).toLocaleDateString()}</td>
