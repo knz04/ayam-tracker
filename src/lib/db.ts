@@ -103,7 +103,7 @@ export async function getUsername() {
   // Decrypt the session to get the payload (which contains userId)
   const payload = await decrypt(session);
 
-  if (!payload || typeof payload.userId !== "number") {
+  if (!payload || typeof payload.userId !== "string") {
     throw new Error("Session is not valid or userId is not a string");
   }
 
@@ -130,7 +130,7 @@ export async function getRecentAyam() {
   // Decrypt the session to get the payload (which contains userId)
   const payload = await decrypt(session);
 
-  if (!payload || typeof payload.userId !== "number") {
+  if (!payload || typeof payload.userId !== "string") {
     throw new Error("Session is not valid or userId is not a string");
   }
 

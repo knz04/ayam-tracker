@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const session = (await cookies()).get("session")?.value;
     const payload = await decrypt(session);
-    if (!payload || typeof payload.userId !== "number") {
+    if (!payload || typeof payload.userId !== "string") {
       throw new Error("Session is not valid or userId is not a string");
     }
     const userId = payload.userId;
