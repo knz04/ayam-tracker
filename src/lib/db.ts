@@ -28,7 +28,6 @@ export async function register(prevState: FormData, formData: FormData) {
     await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
   } catch {
     return {
-      errors: {},
       message: "Database error: Failed to create user.",
     };
   }
@@ -44,7 +43,6 @@ export async function login(prevState: FormData, formData: FormData) {
 
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
       message: "Validation failed",
     };
   }
@@ -72,7 +70,6 @@ export async function login(prevState: FormData, formData: FormData) {
     await createSession(user.id);
   } catch {
     return {
-      errors: {},
       message: "Database error: Failed to login.",
     };
   }
