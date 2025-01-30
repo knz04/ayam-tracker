@@ -35,7 +35,7 @@ export async function register(
     };
   }
 
-  redirect("/");
+  redirect("/?registered=true");
 }
 
 export async function login(

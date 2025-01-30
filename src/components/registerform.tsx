@@ -57,11 +57,6 @@ export default function RegisterForm() {
           {state.errors?.password && (
             <p className="text-sm text-red-500">{state.errors.password}</p>
           )}
-          <label className="label">
-            <a href="#" className="label-text-alt link link-hover">
-              Forgot password?
-            </a>
-          </label>
         </div>
         <div className="form-control mt-6">
           <button className="btn btn-primary">Register</button>

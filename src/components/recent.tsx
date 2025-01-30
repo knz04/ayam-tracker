@@ -10,7 +10,7 @@ interface AyamLog {
   created_at: string; // or Date if it's a Date object
 }
 
-export default function Recent() {
+export default function Recent({ refreshKey }: { refreshKey: number }) {
   const [recentAyam, setRecentAyam] = useState<AyamLog[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -32,7 +32,7 @@ export default function Recent() {
     };
 
     fetchRecentAyam();
-  }, []);
+  }, [refreshKey]);
 
   // Function to display stars based on rating
   const renderStars = (rating: number) => {

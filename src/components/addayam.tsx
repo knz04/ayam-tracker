@@ -1,71 +1,63 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState } from "react";
 import React from "react";
 import AyamPart from "./ayampart";
 import AyamRating from "./ayamrating";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-export default function AddAyam() {
-  const [partData, setPartData] = useState<number | null>(null); // Set initial partData to null
+export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
+  const router = useRouter();
+
+  const [partData, setPartData] = useState<number | null>(null);
   const [ratingData, setRatingData] = useState<number>(1);
   const [notesData, setNotesData] = useState<string>("");
 
   // Handle data from both AyamPart and AyamRating
   function handleDataFromChild(data: { part?: number; rating?: number }) {
-    if (data.part) {
-      setPartData(data.part); // Set part data if part is passed
-      console.log("Updated partData:", data.part); // Log updated part immediately
-    }
-    if (data.rating) {
-      setRatingData(data.rating); // Set rating data if rating is passed
-      console.log("Updated ratingData:", data.rating); // Log updated rating immediately
-    }
+    if (data.part !== undefined) setPartData(data.part);
+    if (data.rating !== undefined) setRatingData(data.rating);
   }
 
   const handleNotesChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNotesData(event.target.value);
   };
 
-  const handleSubmit = async (
-    part: number | null,
-    rating: number,
-    notes: string
-  ) => {
-    if (part === null) {
-      alert("Please select an ayam part!"); // Show alert if partData is null
+  const handleSubmit = async () => {
+    if (partData === null) {
+      toast.error("Please select an ayam part!");
       return;
     }
-
-    console.log("Submitting data:", part, rating, notes);
 
     try {
       const response = await fetch("/api/ayam", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ part, rating, notes }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          part: partData,
+          rating: ratingData,
+          notes: notesData,
+        }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Successfully added ayam log:", result);
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
-        console.error("Failed to add ayam log:", errorData.error);
+        throw new Error(errorData.error || "Failed to add ayam log.");
       }
-    } catch (error) {
-      console.error("Error in submitting data:", error);
+
+      toast.success("Successfully added ayam log!");
+      onLogAdded();
+      router.refresh(); // ✅ Ensure this triggers a re-fetch
+      handleCloseDialog();
+    } catch {
+      toast.error("Failed to add ayam log.");
     }
   };
 
-  useEffect(() => {
-    console.log("Updated partData:", partData); // Log when partData changes
-    console.log("Updated ratingData:", ratingData); // Log when ratingData changes
-    console.log("Updated notesData:", notesData); // Log when notesData changes
-  }, [partData, ratingData, notesData]);
-
   const handleCloseDialog = () => {
     const dialog = document.getElementById("my_modal_5") as HTMLDialogElement;
-    dialog.close(); // Close the dialog
+    dialog.close();
   };
 
   return (
@@ -75,12 +67,8 @@ export default function AddAyam() {
         <form
           className="card-body"
           onSubmit={(event) => {
-            event.preventDefault(); // Prevent default form submission
-            handleSubmit(partData, ratingData, notesData); // Submit form data
-            const dialog = document.getElementById(
-              "my_modal_5"
-            ) as HTMLDialogElement;
-            dialog.close(); // Close the dialog after submission
+            event.preventDefault();
+            handleSubmit();
           }}
         >
           <AyamPart
@@ -101,17 +89,13 @@ export default function AddAyam() {
             ></textarea>
           </div>
           <div className="modal-action">
-            <button
-              type="button"
-              className="btn"
-              onClick={handleCloseDialog} // Close the dialog when clicked
-            >
+            <button type="button" className="btn" onClick={handleCloseDialog}>
               Close
             </button>
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={partData === null} // Disable submit button if partData is null
+              disabled={partData === null}
             >
               Add Ayam
             </button>
