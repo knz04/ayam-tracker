@@ -7,9 +7,10 @@ import { signUpSchema, signInSchema } from "./zod";
 import { createSession, deleteSession, decrypt } from "./sessions";
 import { cookies } from "next/headers";
 
-type FormState = Record<string, string | number | boolean>;
-
-export async function register(prevState: FormState, formData: FormData) {
+export async function register(
+  prevState: { message: string },
+  formData: FormData
+) {
   const result = signUpSchema.safeParse({
     username: formData.get("username"),
     email: formData.get("email"),
@@ -28,13 +29,7 @@ export async function register(prevState: FormState, formData: FormData) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
-  } catch (error: unknown) {
-    // Specify the type of error
-    if (error instanceof Error) {
-      return {
-        message: `Database error: ${error.message}`,
-      };
-    }
+  } catch {
     return {
       message: "Database error: Failed to create user.",
     };
@@ -43,7 +38,10 @@ export async function register(prevState: FormState, formData: FormData) {
   redirect("/");
 }
 
-export async function login(prevState: FormState, formData: FormData) {
+export async function login(
+  prevState: { message: string },
+  formData: FormData
+) {
   const result = signInSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
@@ -76,13 +74,7 @@ export async function login(prevState: FormState, formData: FormData) {
     }
 
     await createSession(user.id);
-  } catch (error: unknown) {
-    // Specify the type of error
-    if (error instanceof Error) {
-      return {
-        message: `Database error: ${error.message}`,
-      };
-    }
+  } catch {
     return {
       message: "Database error: Failed to login.",
     };
