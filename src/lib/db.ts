@@ -7,7 +7,10 @@ import { signUpSchema, signInSchema } from "./zod";
 import { createSession, deleteSession, decrypt } from "./sessions";
 import { cookies } from "next/headers";
 
-export async function register(prevState: FormData, formData: FormData) {
+export async function register(
+  prevState: { message: string },
+  formData: FormData
+) {
   const result = signUpSchema.safeParse({
     username: formData.get("username"),
     email: formData.get("email"),
@@ -36,7 +39,10 @@ export async function register(prevState: FormData, formData: FormData) {
   redirect("/");
 }
 
-export async function login(prevState: FormData, formData: FormData) {
+export async function login(
+  prevState: { message: string },
+  formData: FormData
+) {
   const result = signInSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
