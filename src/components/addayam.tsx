@@ -50,8 +50,8 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
       onLogAdded();
       router.refresh(); // ✅ Ensure this triggers a re-fetch
       handleCloseDialog();
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch {
+      toast.error("Failed to add ayam log.");
     }
   };
 
