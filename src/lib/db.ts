@@ -31,7 +31,6 @@ export async function register(
     await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;
   } catch {
     return {
-      errors: {},
       message: "Database error: Failed to create user.",
     };
   }
@@ -50,7 +49,6 @@ export async function login(
 
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
       message: "Validation failed",
     };
   }
@@ -78,7 +76,6 @@ export async function login(
     await createSession(user.id);
   } catch {
     return {
-      errors: {},
       message: "Database error: Failed to login.",
     };
   }
