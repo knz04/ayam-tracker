@@ -5,7 +5,7 @@ import AddAyam from "./addayam";
 import { getUsername } from "@/lib/db";
 import Image from "next/image";
 
-export default function Welcome() {
+export default function Welcome({ onLogAdded }: { onLogAdded: () => void }) {
   const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -54,7 +54,8 @@ export default function Welcome() {
           </>
         )}
       </div>
-      <AddAyam />
+
+      <AddAyam onLogAdded={onLogAdded} />
     </div>
   );
 }

@@ -3,11 +3,25 @@
 import Link from "next/link";
 import { login } from "@/lib/db";
 import { useFormState } from "react-dom";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export default function LoginForm() {
   const [state, formAction] = useFormState(login, {
     message: "",
   });
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const registered = searchParams.get("registered");
+
+  useEffect(() => {
+    if (registered) {
+      toast.success("Registered successfully! You can now login.");
+      router.replace("/");
+    }
+  }, [registered]);
 
   return (
     <div>

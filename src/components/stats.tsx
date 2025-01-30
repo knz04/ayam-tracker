@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function Stats() {
+export default function Stats({ refreshKey }: { refreshKey: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [thisWeek, setThisWeek] = useState<number>(0);
   const [thisMonth, setThisMonth] = useState<number>(0);
@@ -64,7 +64,7 @@ export default function Stats() {
     };
 
     fetchStats();
-  }, [thisMonth, thisYear]); // Removed today, lastWeek from dependencies
+  }, [thisMonth, thisYear, refreshKey]); // Removed today, lastWeek from dependencies
 
   return (
     <div className="flex flex-col w-full h-full">

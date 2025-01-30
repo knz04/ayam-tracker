@@ -28,7 +28,11 @@ export async function POST(request: NextRequest) {
     }
 
     await sql`INSERT INTO "Logs" (user_id, part_id, rating, notes) VALUES (${userId}, ${part}, ${rating}, ${notes})`;
-    return NextResponse.json("Succesfully added ayam log.", { status: 200 });
+
+    return NextResponse.json("Successfully added ayam log.", {
+      status: 200,
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch {
     return NextResponse.json(
       { error: "Failed to add ayam log" },
