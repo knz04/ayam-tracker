@@ -24,7 +24,16 @@ export default function Footer() {
         </div>
       </nav>
       <aside>
-        <p>Ayam Tracker v1.0 | Created by Kanza</p>
+        <p>
+          Ayam Tracker v1.0 | Created by Kanza |{" "}
+          <Link
+            href="https://app.youform.com/forms/dayizrxm"
+            target="_blank"
+            className="hover:underline"
+          >
+            Feedback
+          </Link>
+        </p>
       </aside>
     </footer>
   );
