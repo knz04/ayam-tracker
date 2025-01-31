@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-full">
         <Navbar />
       </div>
-      <div className="bg-base-200 grow p-6  md:p-12">{children}</div>
+      <div className="bg-base-200 grow p-6 md:p-12">{children}</div>
 
       <Footer />
     </div>
