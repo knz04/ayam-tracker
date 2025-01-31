@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { set } from "zod";
 
 export default function Profile() {
   const [username, setUsername] = useState<string>("");
