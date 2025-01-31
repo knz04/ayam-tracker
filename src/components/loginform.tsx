@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { login } from "@/lib/db";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 export default function LoginForm() {
-  const [state, formAction] = useFormState(login, {
+  const [state, formAction] = useActionState(login, {
     message: "",
   });
 

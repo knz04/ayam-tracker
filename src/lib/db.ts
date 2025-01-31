@@ -26,6 +26,23 @@ export async function register(
 
   const { username, email, password } = result.data;
 
+  const usernameExists =
+    await sql`SELECT * FROM "Users" WHERE username = ${username}`;
+  const emailExists = await sql`SELECT * FROM "Users" WHERE email = ${email}`;
+
+  if (usernameExists.rows.length > 0) {
+    return {
+      errors: { username: ["Username already exists"] },
+      message: "Username already exists",
+    };
+  }
+  if (emailExists.rows.length > 0) {
+    return {
+      errors: { email: ["Email already exists"] },
+      message: "Email already exists",
+    };
+  }
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     await sql`INSERT INTO "Users" (username, email, password) VALUES (${username}, ${email}, ${hashedPassword})`;

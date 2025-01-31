@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { register } from "@/lib/db";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 export default function RegisterForm() {
-  const [state, formAction] = useFormState(register, {
+  const [state, formAction] = useActionState(register, {
     errors: {},
     message: "",
   });
@@ -25,7 +25,9 @@ export default function RegisterForm() {
             required
           />
           {state.errors?.username && (
-            <p className="text-sm text-red-500">{state.errors.username}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {state.errors.username[0]}
+            </p>
           )}
         </div>
         <div className="form-control">
@@ -40,7 +42,7 @@ export default function RegisterForm() {
             required
           />
           {state.errors?.email && (
-            <p className="text-sm text-red-500">{state.errors.email}</p>
+            <p className="text-sm text-red-500 mt-1">{state.errors.email[0]}</p>
           )}
         </div>
         <div className="form-control">
@@ -55,7 +57,9 @@ export default function RegisterForm() {
             required
           />
           {state.errors?.password && (
-            <p className="text-sm text-red-500">{state.errors.password}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {state.errors.password[0]}
+            </p>
           )}
         </div>
         <div className="form-control mt-6">
