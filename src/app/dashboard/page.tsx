@@ -19,11 +19,11 @@ export default function Dashboard() {
         <div className="card-body">
           <h2 className="card-title">Stats</h2>
           <Stats refreshKey={refreshKey} />
-          <div className="card-actions justify-end">
+          {/* <div className="card-actions justify-end">
             <button className="btn btn-primary hover:animate-jump">
               View your ayam stats
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="card bg-base-100 w-full lg:w-1/2 shadow-xl animate-fade-up">
