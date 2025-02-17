@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import PaginationControl from "./pagination";
 import { useSearchParams } from "next/navigation";
-import Edit from "./edit";
+// import Edit from "./edit";
 import { AyamLog, Pagination } from "@/lib/definitions";
 import Image from "next/image";
 
@@ -106,7 +106,7 @@ export default function History() {
                 <td>{renderStars(log.rating)}</td>
                 <td>{new Date(log.created_at).toLocaleDateString()}</td>
                 <td>{log.notes}</td>
-                <Edit />
+                {/* <Edit /> */}
               </tr>
             ))}
           </tbody>
