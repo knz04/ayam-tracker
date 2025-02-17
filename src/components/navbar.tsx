@@ -29,9 +29,9 @@ export default function Navbar() {
               <li>
                 <Link href="/profile">Profile</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/settings">Settings</Link>
-              </li>
+              </li> */}
               <li>
                 <Link onClick={() => logout()} href="#">
                   Logout
