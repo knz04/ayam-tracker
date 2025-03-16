@@ -2,6 +2,9 @@
 # Ayam Tracker 🍗
 
 An ayam consumption tracker with real-time stats for ayam enthusiasts.
+
+Visit at: https://ayamtracker.vercel.app/
+
 ## Features
 
 * Track ayam consumption in real-time
