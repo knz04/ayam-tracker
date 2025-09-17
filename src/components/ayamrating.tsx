@@ -1,61 +1,27 @@
 "use client";
 
-import { useState } from "react";
+type AyamRatingProps = {
+  value: number;
+  onChange: (rating: number) => void;
+};
 
-export default function AyamRating({
-  sendToParent,
-}: {
-  sendToParent: (rating: number) => void;
-}) {
-  const [rating, setRating] = useState<number>(1);
-
-  const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newRating = Number(event.target.value);
-    setRating(newRating); // Update the state
-    sendToParent(newRating); // Send the new rating directly to the parent
-  };
-
+export default function AyamRating({ value, onChange }: AyamRatingProps) {
   return (
     <div className="form-control">
       <label className="label">
         <span className="label-text">Rate the ayam</span>
       </label>
       <div className="rating">
-        <input
-          type="radio"
-          className="mask mask-star bg-primary"
-          value={1}
-          checked={rating === 1}
-          onChange={handleRatingChange}
-        />
-        <input
-          type="radio"
-          className="mask mask-star bg-primary"
-          value={2}
-          checked={rating === 2}
-          onChange={handleRatingChange}
-        />
-        <input
-          type="radio"
-          className="mask mask-star bg-primary"
-          value={3}
-          checked={rating === 3}
-          onChange={handleRatingChange}
-        />
-        <input
-          type="radio"
-          className="mask mask-star bg-primary"
-          value={4}
-          checked={rating === 4}
-          onChange={handleRatingChange}
-        />
-        <input
-          type="radio"
-          className="mask mask-star bg-primary"
-          value={5}
-          checked={rating === 5}
-          onChange={handleRatingChange}
-        />
+        {[1, 2, 3, 4, 5].map((num) => (
+          <input
+            key={num}
+            type="radio"
+            className="mask mask-star bg-primary"
+            value={num}
+            checked={value === num}
+            onChange={() => onChange(num)}
+          />
+        ))}
       </div>
     </div>
   );

@@ -10,22 +10,16 @@ import { useRouter } from "next/navigation";
 export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
   const router = useRouter();
 
-  const [partData, setPartData] = useState<number | null>(null);
+  const [selectedPartId, setSelectedPartId] = useState<string>("");
   const [ratingData, setRatingData] = useState<number>(1);
   const [notesData, setNotesData] = useState<string>("");
-
-  // Handle data from both AyamPart and AyamRating
-  function handleDataFromChild(data: { part?: number; rating?: number }) {
-    if (data.part !== undefined) setPartData(data.part);
-    if (data.rating !== undefined) setRatingData(data.rating);
-  }
 
   const handleNotesChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNotesData(event.target.value);
   };
 
   const handleSubmit = async () => {
-    if (partData === null) {
+    if (!selectedPartId) {
       toast.error("Please select an ayam part!");
       return;
     }
@@ -35,7 +29,7 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          part: partData,
+          part: Number(selectedPartId),
           rating: ratingData,
           notes: notesData,
         }),
@@ -48,7 +42,7 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
 
       toast.success("Successfully added ayam log!");
       onLogAdded();
-      router.refresh(); // ✅ Ensure this triggers a re-fetch
+      router.refresh();
       handleCloseDialog();
     } catch {
       toast.error("Failed to add ayam log.");
@@ -56,6 +50,10 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
   };
 
   const handleCloseDialog = () => {
+    setSelectedPartId("");
+    setRatingData(1);
+    setNotesData("");
+
     const dialog = document.getElementById("my_modal_5") as HTMLDialogElement;
     dialog.close();
   };
@@ -72,10 +70,12 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
           }}
         >
           <AyamPart
-            sendToParent={(part: number) => handleDataFromChild({ part })}
+            value={selectedPartId}
+            onChange={(id) => setSelectedPartId(id)}
           />
           <AyamRating
-            sendToParent={(rating: number) => handleDataFromChild({ rating })}
+            value={ratingData}
+            onChange={(rating) => setRatingData(rating)}
           />
           <div className="form-control">
             <label className="label">
@@ -95,7 +95,7 @@ export default function AddAyam({ onLogAdded }: { onLogAdded: () => void }) {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={partData === null}
+              disabled={!selectedPartId}
             >
               Add Ayam
             </button>
