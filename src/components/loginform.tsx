@@ -64,14 +64,17 @@ export default function LoginForm() {
                   </a>
                 </label> */}
               </div>
-              <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
-              </div>
               {state.message && (
                 <p className="text-sm text-red-500 text-center">
                   {state.message}
                 </p>
               )}
+              <div className="form-control mt-6">
+                <button className="btn btn-primary" formNoValidate>
+                  Login
+                </button>
+              </div>
+
               <Link
                 href="/register"
                 className="label-text-alt text-center link link-hover"

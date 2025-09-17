@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { register } from "@/lib/db";
-import { useActionState } from "react";
+import { useFormState } from "react-dom";
 
 export default function RegisterForm() {
-  const [state, formAction] = useActionState(register, {
+  const [state, formAction] = useFormState(register, {
     errors: {},
     message: "",
   });
@@ -63,7 +63,9 @@ export default function RegisterForm() {
           )}
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Register</button>
+          <button className="btn btn-primary" formNoValidate>
+            Register
+          </button>
         </div>
         <Link href="/" className="label-text-alt text-center link link-hover">
           Already have an account? Login now!
